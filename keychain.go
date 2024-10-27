@@ -145,13 +145,20 @@ var (
 	*/
 	SecClassGenericPassword  SecClass = 1
 	SecClassInternetPassword SecClass = 2
+	SecClassCertificate      SecClass = 3
+	SecClassKey              SecClass = 4
+	SecClassIdentity         SecClass = 5
 )
 
-// SecClassKey is the key type for SecClass
-var SecClassKey = attrKey(C.CFTypeRef(C.kSecClass))
+// secClassKey is the key type for SecClass
+var secClassKey = attrKey(C.CFTypeRef(C.kSecClass))
+
 var secClassTypeRef = map[SecClass]C.CFTypeRef{
 	SecClassGenericPassword:  C.CFTypeRef(C.kSecClassGenericPassword),
 	SecClassInternetPassword: C.CFTypeRef(C.kSecClassInternetPassword),
+	SecClassCertificate: C.CFTypeRef(C.kSecClassCertificate),
+	SecClassKey: C.CFTypeRef(C.kSecClassKey),
+	SecClassIdentity: C.CFTypeRef(C.kSecClassIdentity),
 }
 
 var (
@@ -267,7 +274,7 @@ type Item struct {
 
 // SetSecClass sets the security class
 func (k *Item) SetSecClass(sc SecClass) {
-	k.attr[SecClassKey] = secClassTypeRef[sc]
+	k.attr[secClassKey] = secClassTypeRef[sc]
 }
 
 // SetInt32 sets an int32 attribute for a string key
